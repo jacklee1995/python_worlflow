@@ -8,7 +8,7 @@ setup(
     version="0.0.1",
     author="Jack Lee",
     author_email="291148484@163.com",
-    description="A Python library for defining and executing workflows",
+    description="A flexible and extensible workflow automation framework designed to streamline task execution, resource management, and configuration handling for developers.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/jacklee1995/python_worlflow",
