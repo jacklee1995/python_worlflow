@@ -1,0 +1,14 @@
+name: build
+steps:
+  - name: clean
+    sources: [dist/]
+    destination: dist/
+  - name: styles
+    sources: [src/styles/**/*.scss]
+    destination: dist/css/
+  - name: scripts
+    sources: [src/scripts/**/*.js]
+    destination: dist/js/
+  - name: images
+    sources: [src/images/**/*]
+    destination: dist/images/ 
