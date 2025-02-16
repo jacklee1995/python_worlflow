@@ -1,77 +1,170 @@
-# WorkFlow
+# Workflow Automation Framework
 
-## 1. 项目简介
+A robust and extensible framework for defining and executing workflows composed of tasks and steps. Designed for flexibility, it supports dynamic configuration, resource loading, and modular execution.
+
+---
+
+## Features
+
+- **Core Components**:
+  - **Workflow**: Manages a collection of tasks and their execution order.
+  - **Task**: Represents a unit of work, composed of one or more steps.
+  - **Step**: An atomic operation within a task (e.g., copying files, transforming data).
+  - **Source**: Represents the input data source (e.g., files, directories, URLs).
+  - **Destination**: Represents the output location (e.g., files, directories, console).
+  - **Loader**: Handles loading resources from various sources (e.g., files, URLs).
+  - **Config**: Manages configuration parameters for tasks and workflows.
+
+- **Extensible Architecture**:
+  - Define custom steps, tasks, and workflows.
+  - Support for multiple resource types (files, directories, URLs).
+  - Dynamic configuration loading and saving.
+
+- **Error Handling & Callbacks**:
+  - Built-in error handling for task execution.
+  - Callback mechanisms for workflow events (start, stop, pause, resume).
+
+- **CLI Integration**:
+  - Command-line interface for running workflows and tasks.
+  - Support for environment-specific configurations.
+
+---
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/workflow-framework.git
+   cd workflow-framework
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Install the package:
+   ```bash
+   python setup.py install
+   ```
+
+---
+
+## Usage
+
+### Define a Workflow
+
+```python
+from workflow.core.workflow import Workflow
+from workflow.core.task import task
+from workflow.core.step import Step
+from workflow.core.source import Source
+from workflow.core.destination import Destination
+
+@task
+def my_task():
+    print("Executing my task")
+
+# Create a workflow
+workflow = Workflow(name="My Workflow")
+
+# Add a task to the workflow
+workflow.add_task(my_task)
+
+# Execute the workflow
+workflow.execute()
+```
+
+### Define a Step
+
+```python
+from workflow.core.step import Step
+from workflow.core.source import Source
+from workflow.core.destination import Destination
+
+class MyStep(Step):
+    def execute(self):
+        for source in self.sources:
+            data = source.get_data()
+            self.destination.write(data)
+
+# Create a step
+step = MyStep(name="My Step")
+step.set_sources([Source("input.txt", "file")])
+step.set_destination(Destination("output.txt", "file"))
+
+# Execute the step
+step.execute()
+```
+
+### CLI Commands
+
+Run a workflow:
+```bash
+python -m workflow run --task my_task
+```
+
+Initialize a new project:
+```bash
+python -m workflow init --project my_project
+```
+
+---
+
+## Project Structure
 
 ```
 workflow/
-├── __init__.py
-├── cli/
-│   ├── __init__.py
-│   ├── commands/
-│   │   ├── __init__.py
-│   │   ├── init_command.py
-│   │   ├── run_command.py
-│   │   └── ...
-│   └── main.py
-├── core/
-│   ├── __init__.py
-│   ├── task.py
-│   ├── step.py
-│   ├── workflow.py
-│   ├── config.py
-│   ├── loader.py
-│   ├── source.py
-│   └── destination.py
-├── interfaces/
-│   ├── __init__.py
-│   ├── task_interface.py
-│   ├── step_interface.py
-│   ├── workflow_interface.py
-│   ├── config_interface.py
-│   ├── loader_interface.py
-│   ├── source_interface.py
-│   └── destination_interface.py
-├── loaders/
-│   ├── __init__.py
-│   ├── file_loader.py
-│   ├── directory_loader.py
-│   ├── url_loader.py
-│   └── ...
-├── steps/
-│   ├── __init__.py
-│   ├── copy_step.py
-│   ├── move_step.py
-│   ├── delete_step.py
-│   └── ...
-├── utils/
-│   ├── __init__.py
-│   ├── file_utils.py
-│   ├── path_utils.py
-│   └── ...
-└── templates/
-    ├── project_template/
-    │   ├── src/
-    │   ├── workflows/
-    │   ├── assets/
-    │   ├── dist/
-    │   ├── .env
-    │   └── workflow.py
-    └── ...
+├── core/                  # Core components
+│   ├── config.py          # Configuration management
+│   ├── destination.py     # Destination handling
+│   ├── loader.py          # Resource loading
+│   ├── source.py          # Source handling
+│   ├── step.py            # Step implementation
+│   ├── task.py            # Task implementation
+│   └── workflow.py        # Workflow management
+├── cli/                   # Command-line interface
+│   ├── commands/          # CLI commands
+│   └── __init__.py        # CLI initialization
+├── steps/                 # Built-in steps
+│   ├── copy_step.py       # Copy step
+│   ├── delete_step.py     # Delete step
+│   └── ...                # Other steps
+├── __init__.py            # Package initialization
+└── workflow.py            # Main workflow module
 ```
 
-- `cli/` 目录包含 CLI 相关的代码。
-  - `commands/` 目录包含不同的命令，如 `init_command.py`（初始化项目）、`run_command.py`（运行任务）等。
-  - `main.py` 是 CLI 的入口文件。
-- `core/` 目录包含 Workflow 库的核心类，如 `Task`、`Step`、`Workflow`、`Config`、`Loader`、`Source`、`Destination` 等。
-- `interfaces/` 目录包含不同类的接口定义，如 `TaskInterface`、`StepInterface`、`WorkflowInterface`、`ConfigInterface`、`LoaderInterface`、`SourceInterface`、`DestinationInterface` 等。
-- `loaders/` 目录包含不同的加载器实现，如 `FileLoader`、`DirectoryLoader`、`UrlLoader` 等。
-- `steps/` 目录包含不同的步骤实现，如 `CopyStep`、`MoveStep`、`DeleteStep` 等。
-- `utils/` 目录包含一些辅助函数和工具类，如 `FileUtils`、`PathUtils` 等。
-- `templates/` 目录包含项目模板，如 `project_template/`，用于初始化新项目。
+---
 
-关于设计模式的使用，我建议：
+## Contributing
 
-- 使用工厂模式（Factory Pattern）来创建不同类型的对象，如 `Task`、`Step`、`Loader` 等。这样可以提供一个统一的创建接口，隐藏具体的实现细节。
-- 使用策略模式（Strategy Pattern）来实现不同的加载器和步骤。将每个加载器和步骤封装为一个独立的类，它们实现相同的接口，可以互相替换。这样可以提高代码的灵活性和可扩展性。
-- 使用构建器模式（Builder Pattern）来构建复杂的 `Workflow` 对象。将 `Workflow` 的构建过程分离出来，使用 `WorkflowBuilder` 来逐步构建 `Workflow`，可以简化复杂对象的创建过程。
-- 使用观察者模式（Observer Pattern）来实现事件监听和触发。例如，当文件发生变化时，通知相关的任务重新执行。这样可以解耦事件的发送者和接收者，提高代码的可维护性。
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes with clear and descriptive messages.
+4. Submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Acknowledgments
+
+- Inspired by modern workflow automation tools.
+- Built with ❤️ by [Your Name].
+```
+
+### Key Sections:
+1. **Features**: Highlights the core functionality and benefits of the framework.
+2. **Installation**: Provides clear steps to set up the project.
+3. **Usage**: Includes examples for defining workflows, tasks, and steps, as well as CLI usage.
+4. **Project Structure**: Describes the organization of the codebase.
+5. **Contributing**: Encourages contributions and outlines the process.
+6. **License**: Specifies the license for the project.
+7. **Acknowledgments**: Credits the inspiration and contributors.
+
