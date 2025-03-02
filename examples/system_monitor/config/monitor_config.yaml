@@ -1,0 +1,79 @@
+# 系统监控配置文件
+# 包含资源监控、日志分析、性能报告和网络监控等模块的配置
+
+# 资源监控配置
+resource_monitor:
+  # 资源指标采集间隔(秒)
+  interval: 5  
+  # 监控运行时间(秒)
+  run_duration: 60  # 运行1分钟后自动停止
+  
+  # 需要监控的资源指标
+  metrics:
+    cpu: true    # CPU使用率监控
+    memory: true # 内存使用情况监控
+    disk: true   # 磁盘使用情况监控
+    network: true # 网络使用情况监控
+  
+  # 资源使用警告阈值(百分比)
+  thresholds:
+    cpu_usage: 80    # CPU使用率超过80%触发警告
+    memory_usage: 85 # 内存使用率超过85%触发警告
+    disk_usage: 90   # 磁盘使用率超过90%触发警告
+
+# 日志分析配置
+log_analyzer:
+  # 需要分析的日志文件路径
+  log_paths:
+    - /var/log/syslog    # 系统日志
+    - /var/log/auth.log  # 认证日志
+  
+  # 日志匹配模式
+  patterns:
+    error: 'ERROR|FATAL|CRITICAL'   # 错误日志匹配模式
+    warning: 'WARN|WARNING'         # 警告日志匹配模式
+  
+  # 单次分析的最大日志行数
+  max_lines: 10000
+
+# 性能报告配置
+performance_reporter:
+  # 报告生成间隔(秒)
+  report_interval: 3600  # 每小时生成一次报告
+  
+  # 报告输出格式
+  report_format: html    # 支持 html/pdf/text
+  
+  # 报告包含的内容部分
+  sections:
+    - resource_usage      # 资源使用情况
+    - error_summary      # 错误统计摘要
+    - performance_metrics # 性能指标统计
+
+# 网络监控配置
+network_monitor:
+  # 需要监控的网络接口
+  interfaces:
+    - eth0   # 有线网络接口
+    - wlan0  # 无线网络接口
+  
+  # 需要监控的网络指标
+  metrics:
+    bandwidth: true    # 带宽使用监控
+    packet_loss: true  # 丢包率监控
+  
+  # 网络指标警告阈值
+  thresholds:
+    bandwidth_usage: 80  # 带宽使用率超过80%触发警告
+
+# 安全审计配置
+security_audit:
+  # 需要审计的日志文件
+  audit_paths:
+    - /var/log/auth.log  # 认证日志
+    - /var/log/secure    # 安全日志
+  
+  # 安全事件匹配模式
+  patterns:
+    unauthorized_access: 'Failed password|Invalid user'  # 未授权访问模式
+    suspicious_activity: 'sudo|root'                    # 可疑活动模式 

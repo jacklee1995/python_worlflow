@@ -1,5 +1,5 @@
 # workflow.py
-from workflow import task, series, parallel, watch, src, dest, env
+from workflow_engine import task, series, parallel, watch, src, dest, env
 from src.steps.clean_step import clean_step
 from src.steps.sass_step import sass_step
 from src.steps.uglify_step import uglify_step

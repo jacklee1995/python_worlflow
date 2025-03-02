@@ -1,0 +1,27 @@
+# 输出配置文件
+# 定义系统监控数据的输出方式和格式
+
+outputs:
+  # 控制台输出配置
+  console:
+    enabled: true           # 是否启用控制台输出
+    format: colored         # 输出格式：plain(普通文本)/colored(彩色文本)
+    level: info            # 输出级别：debug/info/warning/error
+
+  # 文件输出配置
+  file:
+    enabled: true          # 是否启用文件输出
+    paths:
+      reports: outputs/reports  # 报告文件输出目录
+      logs: outputs/logs       # 日志文件输出目录
+    format: json           # 输出格式：json
+    # 日志轮转配置
+    rotate:
+      max_size: 10MB      # 单个文件最大大小
+      max_files: 5        # 保留的最大文件数
+
+  # 指标输出配置
+  metrics:
+    enabled: true         # 是否启用指标输出
+    type: prometheus      # 指标收集系统类型：prometheus
+    port: 9090           # 指标暴露端口 

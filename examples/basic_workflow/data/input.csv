@@ -1,0 +1,6 @@
+date,product,category,price,quantity,sales
+2025-01-01,Product A,Electronics,299.99,5,1499.95
+2025-01-01,Product B,Electronics,199.99,3,599.97
+2025-01-02,Product C,Clothing,49.99,10,499.90
+2025-01-02,Product D,Clothing,29.99,15,449.85
+2025-01-03,Product A,Electronics,299.99,2,599.98
